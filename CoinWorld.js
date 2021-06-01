@@ -49,16 +49,16 @@ function gameTick()
 // = Calculates the Dust rate for this tick and adds it to the Stored Dust.
 function tickResourceDust()
 {
-	if (resourceDustUnlocked)
-	{
-		// Generate Resource Rate
-		resourceDustRate = 0;
-		
-		resourceDustStored += resourceDustRate;
-		resourceDustAlltime += resourceDustRate;
-		if (resourceDustStored > resourceDustCap) resourceDustStored = resourceDustCap;
-		$("#resourceDustStored").html(resourceDustStored);
-	}
+	//if (resourceDustUnlocked)
+	//{
+	//	// Generate Resource Rate
+	//	resourceDustRate = 0;
+	//	
+	//	resourceDustStored += resourceDustRate;
+	//	resourceDustAlltime += resourceDustRate;
+	//	if (resourceDustStored > resourceDustCap) resourceDustStored = resourceDustCap;
+	//	$("#resourceDustStored").html(resourceDustStored);
+	//}
 }
 
 // Log Color Mapping
