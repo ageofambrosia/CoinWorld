@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<!--Coin World-->
+<html lang = "en">
+
+<!--Head-->
+<head>
+	<!--Meta-->
+	<meta charset = "utf-8">
+	
+	<!--SEO Meta-->
+	<meta name = "description"
+		content = "An incremental game for collectors, craftsmen, and filthy criminals." />
+	<meta name = "keywords"
+		content = "idle, game, incremental, clicker, coin, upgrade, collecting" />
+	<meta name = "author"
+		content = "Jason Brown" />
+	
+	<!--Favicon-->
+	<link rel = "icon" href = "./favicon.ico">
+	
+	<!--Title--> 
+	<title>Coin World</title>
+	
+	<!--CSS-->
+	<link href = "./css/CoinWorld.css" type = "text/css" rel = "stylesheet" />
+	<link href = "./css/custom.animate.css" type = "text/css" rel = "stylesheet" /> <!-- https://daneden.github.io/animate.css/ -->
+	<link href = "./css/custom.hover.css" type = "text/css" rel = "stylesheet" /> <!-- http://ianlunn.github.io/Hover/ -->
+	
+	<!--Javascript-->
+	<script type = "text/javascript" src = "./CoinWorld.js"></script>
+	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<!--Body-->
+<body onload = "gameStart();">
+<div id = "boxGame">
+	<div id = "columnLeft">
+		<div id = "boxPlayer">
+			
+		</div>
+
+		<div id = "boxResources">
+			
+		</div>
+	</div>
+	
+	<div id = "columnMiddle">
+		<div id = "boxInteractive">
+			<p><span class = "button hvr-reveal" onclick = "logMessage(\"test\", 0);">Test</span></p>
+		</div>
+	</div>
+	
+	<div id = "columnRight">
+		<div id = "boxLog">
+			<div id = "logSpace">
+			</div>
+		</div>
+		
+		<div id = "boxNavigation">
+		
+		</div>
+	</div>
+</div>
+</body>
+</html>
