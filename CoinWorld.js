@@ -1,10 +1,10 @@
 // Global Definitions
-var gameDebuggingMode = 1;
+var debuggingMode = 1;
 var maxSafeInt = Number.MAX_SAFE_INTEGER;
 
 // Core Data Mapping
-var gameVersionMajor = 0;
-var gameVersionMinor = 1;
+var versionMajor = 0;
+var versionMinor = 1;
 
 // Unlock Data Mapping
 
