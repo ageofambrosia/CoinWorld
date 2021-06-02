@@ -7,6 +7,7 @@ var versionMajor = 0;
 var versionMinor = 1;
 
 // Unlock Data Mapping
+var unlockedRockCoin = 1;
 
 // void devUnlockAll()
 // = Console command to unlock all books, resources, etc.
@@ -14,10 +15,10 @@ var versionMinor = 1;
 function devUnlockAll()
 {
 	debugLog("+ devUnlockAll()");
-	
 }
 
 // Resource Data Mapping
+var resourceRockCoin = 0;
 
 // void gameStart()
 // = Spin up the game.
@@ -42,23 +43,23 @@ function gameTick()
 	//debugLog("+ gameTick()");
 	
 	// Basic Resources
-	tickResourceDust();
+	tickResourceRockCoin();
 }
 
-// void tickResourceDust()
-// = Calculates the Dust rate for this tick and adds it to the Stored Dust.
-function tickResourceDust()
+// void tickResourceRockCoin()
+// = Calculates the RockCoin rate for this tick and adds it to the Stored Dust.
+function tickResourceRockCoin()
 {
-	//if (resourceDustUnlocked)
-	//{
-	//	// Generate Resource Rate
-	//	resourceDustRate = 0;
-	//	
-	//	resourceDustStored += resourceDustRate;
-	//	resourceDustAlltime += resourceDustRate;
-	//	if (resourceDustStored > resourceDustCap) resourceDustStored = resourceDustCap;
-	//	$("#resourceDustStored").html(resourceDustStored);
-	//}
+	if (unlockedRockCoin)
+	{
+		// Generate Resource Rate
+		resourceRockCoinRate = 0;
+		
+		//resourceDustStored += resourceDustRate;
+		//resourceDustAlltime += resourceDustRate;
+		//if (resourceDustStored > resourceDustCap) resourceDustStored = resourceDustCap;
+		//$("#resourceDustStored").html(resourceDustStored);
+	}
 }
 
 // Log Color Mapping
@@ -105,6 +106,14 @@ function logMessage(message, color)
 function drawOldManStudy()
 {
 	$("#boxInteractive").load("./Locations/oldManStudy.html");
+}
+
+// void miningMineRockCoin()
+// = Manually mines RockCoins
+function miningRockCoin()
+{
+	resourceRockCoin += 1;
+	$("#resourceRockCoin").html(resourceRockCoin);
 }
 
 // void debugLog(str message)
