@@ -9,6 +9,9 @@ p
 	font-family: Georgia, serif;
 	cursor: context-menu;
 	user-select: none;
+	
+	margin:0px;
+	padding:0px;
 }
 
 p.logMessage
@@ -20,6 +23,26 @@ p.logMessage
 	margin-right: 0px;
 	margin-bottom: 5px;
 	margin-left: 0px;
+}
+
+.syndicateTitleBox
+{
+	margin-bottom: 5px;
+}
+
+p.syndicateTitle
+{
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	
+	font-weight: bold;
+}
+
+.syndicateResources
+{
+	padding-left: 8px;
 }
 
 .button
@@ -43,12 +66,19 @@ p.logMessage
 	cursor: pointer;
 }
 
+p.buttonInfo
+{
+	margin-top: -4px;
+	font-size: 8pt;
+}
+
 #boxGame
 {
 	display: flex;
 	flex-wrap: none;
 	flex-direction: row;
 	width: auto;
+	justify-content: center;
 	
 	margin: 0px;
 	padding: 0px;
@@ -59,6 +89,7 @@ p.logMessage
 	display: flex;
 	flex-wrap: none;
 	flex-direction: column;
+	flex-shrink: 0;
 	width: 280px;
 	
 	margin: 0px;
@@ -81,25 +112,26 @@ p.logMessage
 	display: flex;
 	flex-wrap: none;
 	flex-direction: column;
+	flex-shrink: 0;
 	width: 280px;
 	
 	margin: 0px;
 	padding: 0px;
 }
 
-#boxPlayer
+#boxSyndicate
 {
 	display: flex;
 	flex-wrap: wrap;
-	width: auto;
+	width: 280px;
 	
 	border: 0px solid black;
 	background-color: transparent;
 	
-	margin-top: 5px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	margin-left: 5px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
 	
 	padding-top: 0px;
 	padding-right: 0px;
@@ -111,20 +143,20 @@ p.logMessage
 {
 	display: flex;
 	flex-wrap: wrap;
-	width: auto;
+	width: 280px;
 	
 	border: 1px solid black;
 	background-color: Snow;
 	
-	margin-top: 5px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	margin-left: 5px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
 	
-	padding-top: 5px;
-	padding-right: 5px;
-	padding-bottom: 5px;
-	padding-left: 5px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
 }
 
 #boxInteractive
