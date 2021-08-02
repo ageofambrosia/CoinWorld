@@ -1,29 +1,14 @@
 // Global Definitions
 var debuggingMode = 1;
 var maxSafeInt = Number.MAX_SAFE_INTEGER;
+var syndicateCurrent = 0;
 
 // Core Data Mapping
 var versionMajor = 0;
 var versionMinor = 1;
 
-// Unlock Data Mapping
-var unlockedSyndicateMining = 1;
-var unlockedResourceOre = 1;
-var unlockedResourceSortedOre = 0;
+// ###################### Resource Object ######################
 
-// void devUnlockAll()
-// = Console command to unlock all books, resources, etc.
-// = Created for debugging, kind of ruins the fun.
-function devUnlockAll()
-{
-	debugLog("devUnlockAll()");
-	
-	unlockedSyndicateMining = 1;
-	unlockedOre = 1;
-	unlockedSortedOre = 1;
-}
-
-// Resource Object
 function resourceObject() 
 {
 	this.stored = 0;
@@ -52,10 +37,19 @@ function resourceSpend(object, numSpent)
 	return false;
 }
 
-// Resource Data Mapping
+// Mining Resources
+var resourceMiningOre = new resourceObject();
+var resourceMiningSortedOre = new resourceObject();
 var resourceMiningRep = new resourceObject();
-var resourceOre = new resourceObject();
-var resourceSortedOre = new resourceObject();
+var resourceMiningCoin = new resourceObject();
+
+// Bakery Resources
+var resourceBakeryRep = new resourceObject();
+var resourceBakeryCoin = new resourceObject();
+
+// #################### End Resource Object ####################
+
+// ======================= Game Loop ===========================
 
 // void gameStart()
 // = Spin up the game.
@@ -64,9 +58,10 @@ function gameStart()
 	debugLog("gameStart()");
 	
 	// Draw Boxes
-	drawBoxSyndicate(0);
-	drawBoxInteractive(0);
-	drawBoxNavigation();
+	updateSyndicate(syndicateCurrent);
+	updateCoins();
+	updateInteractive();
+	updateNavigation();
 	
 	// Start Game Loop
 	gameTick();
@@ -80,25 +75,124 @@ function gameTick()
 {
 	//debugLog("gameTick()");
 	
-	// Basic Resources
-	tickResourceOre();
+	// Update Coins
+	updateSyndicate(syndicateCurrent);
+	updateCoins();
 }
 
-// void tickResourceOre()
-// = Calculates the Ore rate for this tick and adds it to the Stored Ore
-function tickResourceOre()
+// ===================== End Game Loop =========================
+
+// +++++++++++++++++++++++ Box Updates +++++++++++++++++++++++++
+
+// void updateBoxSyndicate
+// = Update the Syndicate Box for the current location
+function updateSyndicate(locationNumber)
 {
-	if (unlockedResourceOre)
+	syndicateCurrent = locationNumber;
+	htmlBuffer = "";
+	
+	switch(locationNumber)
 	{
-		// Generate Resource Rate
-		//resourceRockCoinRate = 0;
+		case 0:
+			// Deepcrust Mining Syndicate
+			htmlBuffer += "<div class = 'syndicateTitleBox'><p class = 'syndicateTitle'>Deepcrust Mining Syndicate</p>";
+			htmlBuffer += "<p>Reputation: ";
+			htmlBuffer += resourceMiningRep.stored;
+			htmlBuffer += "</p></div>";
+			
+			htmlBuffer += "<div class = 'syndicateResources'>";
+			htmlBuffer += "<p>Raw Ore: ";
+			htmlBuffer += resourceMiningOre.stored;
+			htmlBuffer += "</p><p>Sorted Ore: ";
+			htmlBuffer += resourceMiningSortedOre.stored;
+			htmlBuffer += "</p></div>";
+			break;
+		case 1:
+			// Conquest Bakers Union
 		
-		//resourceDustStored += resourceDustRate;
-		//resourceDustAlltime += resourceDustRate;
-		//if (resourceDustStored > resourceDustCap) resourceDustStored = resourceDustCap;
-		//$("#resourceDustStored").html(resourceDustStored);
+			break;
+		default:
+	}
+	
+	$("#boxSyndicate").html(htmlBuffer);
+}
+
+// void updateCoins()
+// = Update coin counts
+function updateCoins()
+{
+	var htmlBuffer = "";
+	
+	if (resourceMiningCoin.alltime > 0)
+	{
+		htmlBuffer += "<div style='display:block;'><p>Mining Coins: ";
+		htmlBuffer += resourceMiningCoin.stored
+		htmlBuffer += "</p>";
+	}
+	
+	if (resourceBakeryCoin.alltime > 0)
+	{
+		htmlBuffer += "<div style='display:block;'><p>Bakery Coins: ";
+		htmlBuffer += resourceBakeryCoin.stored
+		htmlBuffer += "</p>";
+	}
+	
+	if (htmlBuffer == "")
+	{
+		$("#boxResources").hide();
+	}
+	
+	else
+	{
+		$("#boxResources").show();
+		$("#boxResources").html(htmlBuffer);
 	}
 }
+
+// void updateInteractive()
+// = Update the Interactive Box for the current location
+function updateInteractive()
+{
+	var htmlBuffer = "";
+	
+	switch(syndicateCurrent)
+	{
+		case 0:
+			htmlBuffer += "<div style = 'text-align: center;'>"
+			htmlBuffer += "<p><span class = 'button hvr-reveal' onclick = 'miningOre();'>Mine Ore</span></p>"
+			htmlBuffer += "<p class = 'buttonInfo'>+1 ore</p>"
+			htmlBuffer += "<div>"
+			
+			htmlBuffer += "<div style = 'text-align: center;'>"
+			htmlBuffer += "<p><span class = 'button hvr-reveal' onclick = 'miningOreContribute();'>Contribute Ore</span></p>"
+			htmlBuffer += "<p class = 'buttonInfo'>-50 ore, +1 rep</p>"
+			htmlBuffer += "<div>"
+		
+			break;
+		case 1:
+		
+			break;
+		default:
+	}
+	
+	$("#boxInteractive").html(htmlBuffer);
+}
+
+// void updateNavigation()
+// = Update navigation console
+function updateNavigation()
+{
+	var htmlBuffer = "";
+	
+	htmlBuffer += "<p class = 'textButton' onclick = 'updateSyndicate(0); drawBoxInteractive(0);'>Deeprock Mining Syndicate</p>";
+	htmlBuffer += "<p class = 'textButton' onclick = 'updateSyndicate(1); drawBoxInteractive(1);'>Bakery</p>";
+	
+	$("#boxNavigation").html(htmlBuffer);
+}
+
+// +++++++++++++++++++++ End Box Updates +++++++++++++++++++++++
+
+// ======================= Message Log =========================
 
 // Log Color Mapping
 	// 0 = Black
@@ -139,108 +233,32 @@ function logMessage(message, color)
 	$("#logSpace").html(logBuffer);
 }
 
-// void drawBoxSyndicate
-// = Update the Syndicate Box for the current location
-function drawBoxSyndicate(locationNumber)
+// void debugLog(str message)
+// = Prints message to console if debugging is turned on.
+function debugLog(message)
 {
-	debugLog("Drawing Syndicate Box " + locationNumber.toString());
-	
-	switch(locationNumber)
-	{
-		case 0:
-			$("#boxSyndicate").load("./Syndicates/mining.html", drawBoxSyndicateContinue(locationNumber));
-			break;
-		case 1:
-			$("#boxSyndicate").load("./Syndicates/bakery.html");
-			break;
-		default:
-			$("#boxSyndicate").load("./Syndicates/mining.html");
-	}
+	if (debuggingMode) console.log("+ " + message);
 }
 
-function drawBoxSyndicateContinue(locationNumber)
-{
-	debugLog("Drawing Syndicate Box Continued " + locationNumber.toString());
-	
-	switch(locationNumber)
-	{
-		case 0:
-			$("#resourceMiningRep").html(resourceMiningRep.stored);
-			$("#resourceOre").html(resourceOre.stored);
-			$("#resourceSortedOre").html(resourceSortedOre.stored);
-			break;
-		case 1:
-			break;
-		default:
-			$("#resourceMiningRep").html(resourceMiningRep.stored);
-			$("#resourceOre").html(resourceOre.stored);
-			$("#resourceSortedOre").html(resourceSortedOre.stored);
-	}
-}
-
-// void drawBoxInteractive()
-// = Update the Interactive Box for the current location
-function drawBoxInteractive(locationNumber)
-{
-	debugLog("Drawing Interactive Box " + locationNumber.toString());
-	
-	switch(locationNumber)
-	{
-		case 0:
-			//$("#boxInteractive").load("./Interactives/mining.html", drawBoxInteractiveContinue(locationNumber));
-			$("#boxInteractive").load("./Interactives/mining.html", drawBoxInteractiveContinue(locationNumber));
-			break;
-		case 1:
-			$("#boxInteractive").load("./Interactives/bakery.html");
-			break;
-		default:
-			$("#boxInteractive").load("./Interactives/mining.html", drawBoxInteractiveContinue(locationNumber));
-	}
-}
-
-function drawBoxInteractiveContinue(locationNumber)
-{
-	debugLog("Drawing Interactive Box Continued " + locationNumber.toString());
-	
-	switch(locationNumber)
-	{
-		case 0:
-			debugLog("loadcheck 1");
-			$("#miningSortOre").html('<span class = "button hvr-reveal" onclick = "miningSort();">Unlock Ore Sorting</span>');
-			debugLog("loadcheck 2");
-			break;
-		default:
-			$("#miningSortOre").html('<span class = "button hvr-reveal" onclick = "miningSort();">Unlock Ore Sorting</span>');
-	}
-}
-
-// void drawBoxNavigation()
-// = Update the Navigation Box for unlocked locations
-function drawBoxNavigation()
-{
-	debugLog("Drawing Navigation Box ");
-	
-	$("#boxNavigation").load("./navigation.html");
-}
+// ===================== End Message Log =======================
 
 // void miningOre()
 // = Manually mines Ore
 function miningOre()
 {
-	resourceGain(resourceOre, 1);
-	$("#resourceOre").html(resourceOre.stored);
+	resourceGain(resourceMiningOre, 1);
+	updateSyndicate(0);
 }
 
 // void miningOreContribute()
 // = Contributes Ore to the syndicate for reputation
 function miningOreContribute()
 {
-	if (resourceSpend(resourceOre, 50))
+	if (resourceSpend(resourceMiningOre, 50))
 	{
 		resourceGain(resourceMiningRep, 1);
 	}
-	$("#resourceOre").html(resourceOre.stored);
-	$("#resourceMiningRep").html(resourceMiningRep.stored);
+	updateSyndicate(0);
 }
 
 // void miningSort()
@@ -261,11 +279,4 @@ function miningSort()
 	}
 	$("#resourceOre").html(resourceOre.stored);
 	$("#resourceSortedOre").html(resourceSortedOre.stored);
-}
-
-// void debugLog(str message)
-// = Prints message to console if debugging is turned on.
-function debugLog(message)
-{
-	if (debuggingMode) console.log("+ " + message);
 }
